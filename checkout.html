@@ -14,7 +14,26 @@
 function sendMail(event){
     event.preventDefault();
 
-    let maDon = "DH" + Math.floor(Math.random() * 100000);
+    // Tạo mã đơn
+    let maDon = "DH" + Math.floor(Math.random()*100000);
+
+    // Lấy giỏ hàng
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    // Tạo chuỗi sản phẩm
+    let sanpham = "";
+
+    cart.forEach(function(item){
+        sanpham += item.name + 
+        " (SL: " + item.quantity + 
+        ") - " + item.price + "đ\n";
+    });
+
+    // Nếu không có sản phẩm
+    if(sanpham === ""){
+        alert("Giỏ hàng đang trống!");
+        return;
+    }
 
     emailjs.send("service_zqbqfsd","template_carwgza",{
         madon: maDon,
@@ -22,27 +41,141 @@ function sendMail(event){
         hoten: document.getElementById("hoten").value,
         sdt: document.getElementById("sdt").value,
         diachi: document.getElementById("diachi").value
-    }).then(function(){
+    })
+    .then(function(){
         alert("Đặt hàng thành công!");
-    }, function(error){
+        localStorage.removeItem("cart"); // xoá giỏ sau khi đặt
+        window.location.href="index.html"; // quay về trang chủ
+    })
+    .catch(function(error){
         alert("Gửi thất bại!");
         console.log(error);
     });
 }
 </script>
+<style>
 
+body{
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #ffe6f0, #fff);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container{
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    width: 350px;
+    text-align: center;
+}
+
+h2{
+    margin-bottom: 20px;
+    color: #ff4d94;
+}
+
+input{
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    transition: 0.3s;
+}
+
+input:focus{
+    border-color: #ff4d94;
+    outline: none;
+    box-shadow: 0 0 5px rgba(255,77,148,0.4);
+}
+
+button{
+    width: 100%;
+    padding: 12px;
+    background: #ff4d94;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover{
+    background: #e60073;
+    transform: scale(1.05);
+}
+.logo-img{
+    width:120px;
+    transition:0.4s;
+}
+
+.logo-img:hover{
+    transform: rotate(10deg) scale(1.1);
+}
+.wave span{
+    display: inline-block;
+    font-size: 32px;
+    font-weight: bold;
+    color: #ff4d94;
+    animation: wave 1.5s ease-in-out infinite;
+    text-shadow: 
+        0 3px 6px rgba(0,0,0,0.2),
+        0 6px 15px rgba(255,77,148,0.3);
+}
+
+/* Tạo độ trễ cho từng chữ */
+.wave span:nth-child(1){ animation-delay: 0s; }
+.wave span:nth-child(2){ animation-delay: 0.1s; }
+.wave span:nth-child(3){ animation-delay: 0.2s; }
+.wave span:nth-child(4){ animation-delay: 0.3s; }
+.wave span:nth-child(5){ animation-delay: 0.4s; }
+.wave span:nth-child(6){ animation-delay: 0.5s; }
+.wave span:nth-child(7){ animation-delay: 0.6s; }
+.wave span:nth-child(8){ animation-delay: 0.7s; }
+.wave span:nth-child(9){ animation-delay: 0.8s; }
+.wave span:nth-child(10){ animation-delay: 0.9s; }
+
+@keyframes wave{
+    0%   { transform: translateY(0); }
+    50%  { transform: translateY(-12px); }
+    100% { transform: translateY(0); }
+}
+</style>
 </head>
 
 <body>
 
-<h2>Thanh toán</h2>
+<body>
 
-<form onsubmit="sendMail(event)">
-    <input type="text" id="hoten" placeholder="Họ tên" required><br><br>
-    <input type="text" id="sdt" placeholder="SĐT" required><br><br>
-    <input type="text" id="diachi" placeholder="Địa chỉ" required><br><br>
-    <button type="submit">Xác nhận đặt hàng</button>
-</form>
+<div class="container">
+    <img src="logo shop.jpg" class="logo-img">
+    <h2 class="wave">
+  <span>T</span>
+  <span>h</span>
+  <span>a</span>
+  <span>n</span>
+  <span>h</span>
+  <span> </span>
+  <span>t</span>
+  <span>o</span>
+  <span>á</span>
+  <span>n</span>
+</h2>
+
+    <form onsubmit="sendMail(event)">
+        <input type="text" id="hoten" placeholder="Họ tên" required>
+        <input type="text" id="sdt" placeholder="SĐT" required>
+        <input type="text" id="diachi" placeholder="Địa chỉ" required>
+        <button type="submit">Xác nhận đặt hàng</button>
+    </form>
+</div>
+
+</body>
 
 </body>
 </html>
