@@ -91,28 +91,28 @@ font-weight:bold;
 <section class="products">
 
 <div class="card">
-<img src="https://i.imgur.com/8Km9tLL.jpg">
-<h3>Scrunchie Hoa Nhí</h3>
+<img src="hồng.jpg">
+<h3>Scrunchie Hồng Hoa Nhí</h3>
 <p class="price">25.000đ</p>
 <button onclick="addToCart('Scrunchie Hoa Nhí',25000)">Thêm vào giỏ</button>
 </div>
 
 <div class="card">
-<img src="https://i.imgur.com/j6r1Y7C.jpg">
-<h3>Scrunchie Pastel</h3>
+<img src="nơ.jpg">
+<h3>Scrunchie Hồng Nhạt</h3>
 <p class="price">30.000đ</p>
 <button onclick="addToCart('Scrunchie Pastel',30000)">Thêm vào giỏ</button>
 </div>
 
 <div class="card">
-<img src="https://i.imgur.com/0Clfnu7.jpg">
-<h3>Scrunchie Ren Vintage</h3>
+<img src="tráng.jpg">
+<h3>Scrunchie Trắng Vintage</h3>
 <p class="price">35.000đ</p>
 <button onclick="addToCart('Scrunchie Ren Vintage',35000)">Thêm vào giỏ</button>
 </div>
 
 <div class="card">
-<img src="https://i.imgur.com/ZF6s192.jpg">
+<img src="lụa.jpg">
 <h3>Scrunchie Nơ Lụa</h3>
 <p class="price">28.000đ</p>
 <button onclick="addToCart('Scrunchie Nơ Lụa',28000)">Thêm vào giỏ</button>
@@ -121,30 +121,39 @@ font-weight:bold;
 </section>
 
 <script>
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
 function updateCartCount(){
-let total=0;
-cart.forEach(item=>total+=item.quantity);
-document.getElementById("cart-count").innerText=total;
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    let total = 0;
+
+    cart.forEach(item => total += item.quantity);
+
+    document.getElementById("cart-count").innerText = total;
 }
 
-function addToCart(name,price){
-let existing=cart.find(item=>item.name===name);
+function addToCart(name, price){
 
-if(existing){
-existing.quantity++;
-}else{
-cart.push({name:name,price:price,quantity:1});
-}
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-localStorage.setItem("cart",JSON.stringify(cart));
-updateCartCount();
-alert("Đã thêm vào giỏ!");
+    let existing = cart.find(item => item.name === name);
+
+    if(existing){
+        existing.quantity++;
+    } else {
+        cart.push({
+            name: name,
+            price: price,
+            quantity: 1
+        });
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+    updateCartCount();
+    alert("Đã thêm vào giỏ!");
 }
 
 updateCartCount();
 </script>
 
+</script>
 </body>
 </html>
