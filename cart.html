@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Giỏ hàng</title>
+<style>
+body{font-family:Arial;background:#fff6f8;padding:20px;}
+.item{background:white;padding:15px;margin-bottom:10px;border-radius:10px;}
+button{background:#ff8fab;border:none;padding:5px 10px;color:white;border-radius:6px;cursor:pointer;}
+button:hover{background:#e76f8a;}
+.total{font-weight:bold;margin-top:20px;}
+</style>
+</head>
+<body>
+
+<h2>🛒 Giỏ hàng của bạn</h2>
+<div id="cart-items"></div>
+<p class="total" id="total-price"></p>
+<br>
+<a href="checkout.html"><button>Thanh toán</button></a>
+<a href="index.html"><button>← Quay lại</button></a>
+
+<script>
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let container = document.getElementById("cart-items");
+
+function renderCart(){
+container.innerHTML="";
+let total=0;
+
+cart.forEach((item,index)=>{
+total+=item.price*item.quantity;
+
+container.innerHTML+=`
+<div class="item">
+<h3>${item.name}</h3>
+<p>Giá: ${item.price} đ</p>
+<button onclick="decrease(${index})">-</button>
+${item.quantity}
+<button onclick="increase(${index})">+</button>
+<button onclick="removeItem(${index})">Xoá</button>
+</div>
+`;
+});
+
+document.getElementById("total-price").innerText="Tổng tiền: "+total+" đ";
+}
+
+function increase(i){
+cart[i].quantity++;
+save();
+}
+
+function decrease(i){
+if(cart[i].quantity>1){
+cart[i].quantity--;
+}else{
+cart.splice(i,1);
+}
+save();
+}
+
+function removeItem(i){
+cart.splice(i,1);
+save();
+}
+
+function save(){
+localStorage.setItem("cart",JSON.stringify(cart));
+renderCart();
+}
+
+renderCart();
+</script>
+
+</body>
+</html>

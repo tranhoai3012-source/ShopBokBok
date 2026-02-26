@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Thanh toán</title>
+
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+<script>
+(function(){
+    emailjs.init("OAesusQKJzignQjkp");
+})();
+
+function sendMail(event){
+    event.preventDefault();
+
+    let maDon = "DH" + Math.floor(Math.random() * 100000);
+
+    emailjs.send("service_zqbqfsd","template_carwgza",{
+        madon: maDon,
+        sanpham: sanpham,
+        hoten: document.getElementById("hoten").value,
+        sdt: document.getElementById("sdt").value,
+        diachi: document.getElementById("diachi").value
+    }).then(function(){
+        alert("Đặt hàng thành công!");
+    }, function(error){
+        alert("Gửi thất bại!");
+        console.log(error);
+    });
+}
+</script>
+
+</head>
+
+<body>
+
+<h2>Thanh toán</h2>
+
+<form onsubmit="sendMail(event)">
+    <input type="text" id="hoten" placeholder="Họ tên" required><br><br>
+    <input type="text" id="sdt" placeholder="SĐT" required><br><br>
+    <input type="text" id="diachi" placeholder="Địa chỉ" required><br><br>
+    <button type="submit">Xác nhận đặt hàng</button>
+</form>
+
+</body>
+</html>

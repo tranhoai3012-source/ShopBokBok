@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>ShopBokBok</title>
+<style>
+body{
+font-family:Arial;
+margin:0;
+background:#fff6f8;
+}
+
+header{
+background:#ff8fab;
+color:white;
+padding:20px;
+text-align:center;
+}
+
+nav{
+background:#ffc2d1;
+text-align:center;
+padding:10px;
+}
+
+nav a{
+text-decoration:none;
+margin:0 15px;
+font-weight:bold;
+color:#333;
+}
+
+.products{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+padding:30px;
+}
+
+.card{
+background:white;
+padding:15px;
+border-radius:12px;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
+text-align:center;
+}
+
+.card img{
+width:100%;
+border-radius:10px;
+}
+
+.price{
+color:#e63946;
+font-weight:bold;
+}
+
+button{
+background:#ff8fab;
+border:none;
+padding:8px 12px;
+color:white;
+border-radius:8px;
+cursor:pointer;
+}
+
+button:hover{
+background:#e76f8a;
+}
+
+#cart-count{
+color:red;
+font-weight:bold;
+}
+</style>
+</head>
+<body>
+
+<header>
+<h1>🎀 ShopBokBok 🎀</h1>
+<p>Dây buộc tóc Handmade dễ thương</p>
+</header>
+
+<nav>
+<a href="index.html">Trang chủ</a>
+<a href="cart.html">
+🛒 Giỏ hàng (<span id="cart-count">0</span>)
+</a>
+</nav>
+
+<section class="products">
+
+<div class="card">
+<img src="https://i.imgur.com/8Km9tLL.jpg">
+<h3>Scrunchie Hoa Nhí</h3>
+<p class="price">25.000đ</p>
+<button onclick="addToCart('Scrunchie Hoa Nhí',25000)">Thêm vào giỏ</button>
+</div>
+
+<div class="card">
+<img src="https://i.imgur.com/j6r1Y7C.jpg">
+<h3>Scrunchie Pastel</h3>
+<p class="price">30.000đ</p>
+<button onclick="addToCart('Scrunchie Pastel',30000)">Thêm vào giỏ</button>
+</div>
+
+<div class="card">
+<img src="https://i.imgur.com/0Clfnu7.jpg">
+<h3>Scrunchie Ren Vintage</h3>
+<p class="price">35.000đ</p>
+<button onclick="addToCart('Scrunchie Ren Vintage',35000)">Thêm vào giỏ</button>
+</div>
+
+<div class="card">
+<img src="https://i.imgur.com/ZF6s192.jpg">
+<h3>Scrunchie Nơ Lụa</h3>
+<p class="price">28.000đ</p>
+<button onclick="addToCart('Scrunchie Nơ Lụa',28000)">Thêm vào giỏ</button>
+</div>
+
+</section>
+
+<script>
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+function updateCartCount(){
+let total=0;
+cart.forEach(item=>total+=item.quantity);
+document.getElementById("cart-count").innerText=total;
+}
+
+function addToCart(name,price){
+let existing=cart.find(item=>item.name===name);
+
+if(existing){
+existing.quantity++;
+}else{
+cart.push({name:name,price:price,quantity:1});
+}
+
+localStorage.setItem("cart",JSON.stringify(cart));
+updateCartCount();
+alert("Đã thêm vào giỏ!");
+}
+
+updateCartCount();
+</script>
+
+</body>
+</html>
